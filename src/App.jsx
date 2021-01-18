@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 
 function LinkInput({ sendLink, linkList, sendLinkList }) {
   const [newLink, setNewLink] = useState('');
-  console.log('link list', linkList);
+  console.log('link list in LinkInput component: ', linkList);
 
   // handle for submitting new link
   const handleLinkInputSubmit = () => {
     console.log('inside handleLinkInputSubmit');
 
-    console.log('newlink', newLink);
+    console.log('newlink when input is submitted', newLink);
 
     // add the new link to the link list
     linkList.push(newLink);
