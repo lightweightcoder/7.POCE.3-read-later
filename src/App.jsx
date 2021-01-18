@@ -71,6 +71,7 @@ export default function App() {
   console.log('running app...');
   const [newLink, setNewLink] = useState('');
   const [linkList, setLinkList] = useState([]);
+  console.log('newLink: ', newLink);
 
   const handleNewLinkSubmit = setNewLink;
 
