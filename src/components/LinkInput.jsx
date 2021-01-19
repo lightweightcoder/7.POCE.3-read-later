@@ -1,16 +1,14 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import validUrl from 'valid-url';
 
 export default function LinkInput({ sendLink, linkList, sendLinkList }) {
   const [newLink, setNewLink] = useState('');
+  const [invalidUrlMsg, setInvalidUrlMsg] = useState('');
   console.log('link list in LinkInput component: ', linkList);
 
-  // handle for submitting new link
-  const handleLinkInputSubmit = () => {
-    console.log('inside handleLinkInputSubmit');
-
-    console.log('newlink when input is submitted', newLink);
-
+  // helper function to add a new link to link list
+  const addLinkToList = () => {
     // add the new link to the link list
     const newLinkListCopy = [newLink, ...linkList];
 
@@ -22,6 +20,24 @@ export default function LinkInput({ sendLink, linkList, sendLinkList }) {
 
     // set the link in the parent component to empty
     sendLink('');
+
+    // set the invalid msg to empty
+    setInvalidUrlMsg('');
+  };
+
+  // handle for submitting new link
+  const handleLinkInputSubmit = () => {
+    console.log('inside handleLinkInputSubmit');
+
+    // returns undefined if its not a valid url, else returns the url
+    const isUrlValid = validUrl.isUri(newLink);
+
+    // if Url is valid, add the new link to the link list, else show invalid url message to user
+    if (isUrlValid) {
+      addLinkToList();
+    } else {
+      setInvalidUrlMsg('not a valid Url');
+    }
   };
 
   // handle for updating the input value as the user types
@@ -42,6 +58,7 @@ export default function LinkInput({ sendLink, linkList, sendLinkList }) {
         <input id="input-link" type="text" value={newLink} onChange={handleChange} />
       </label>
       <button type="submit" onClick={handleLinkInputSubmit}> Submit Link </button>
+      <p>{invalidUrlMsg}</p>
     </div>
   );
 }
